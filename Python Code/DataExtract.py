@@ -64,7 +64,7 @@ def get_Param_data(folder, file):
 def get_sparams_at_freq(ntw, freq):
     """Extracts all 16 S-parameters at the target frequency as a flat list."""
     index = np.where(ntw.f == freq)[0][0]
-    s_matrix = ntw.s[index, :, :]  # shape: (4, 4)
+    s_matrix = ntw.s_mag[index, :, :]  # shape: (4, 4)
     return s_matrix.flatten()  # row-major: [s11, s12, ..., s44] 
 
 
