@@ -25,7 +25,7 @@ def get_Param_data(folder, file):
 
     while True:
         try:
-            filename = fr"resources\{folder}\{file}_{i}.s4p"
+            filename = fr"C:\Users\Youssef Amr\Documents\RF project\GitrRepo\RF_project\RF_project\Python Code\resources\{folder}\{file}_{i}.s4p"
             ntw = rf.Network(filename)
 
             # Check if 4 GHz exists in frequency list
