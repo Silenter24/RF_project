@@ -20,7 +20,29 @@ reference_vector = np.array([
     0.054720507
 ]).reshape((16, 1))
 
-TOLERANCE = 0.02
+TOLERANCE = 0.04
+
+def main():
+    lambdasweep = np.load("lambdasweep.npy")
+    Z0root2sweep = np.load("Z0root2sweep.npy")
+    Z0sweep = np.load("Z0sweep.npy")
+    print("Categorizing lambdasweep...")
+    lambdasweep_categorized = categorize_samples_onehot(lambdasweep, "lambdasweep")
+    print("Categorizing Z0root2sweep...")
+    Z0root2sweep_categorized = categorize_samples_onehot(Z0root2sweep, "Z0root2sweep")
+    print("Categorizing Z0sweep...")
+    Z0sweep_categorized = categorize_samples_onehot(Z0sweep, "Z0sweep")
+    print("Categorization complete.")
+    totalsweep = np.concatenate((lambdasweep, Z0root2sweep, Z0sweep), axis=1)
+    totalresult = np.concatenate((lambdasweep_categorized, Z0root2sweep_categorized, Z0sweep_categorized), axis=0)
+    # Generate a random permutation of indices
+    perm = np.random.permutation(totalresult.shape[0])
+
+    # Shuffle A's columns and B's rows using the same permutation
+    shuffledsweep = totalsweep[:, perm]   # shuffle columns of A
+    shuffledresult = totalresult[perm, :]   # shuffle rows of B
+    np.save("shuffledsweep.npy", shuffledsweep)
+    np.save("shuffledresult.npy", shuffledresult)
 
 def categorize_samples_onehot(matrix: np.ndarray, name: str) -> np.ndarray:
     """
@@ -59,6 +81,9 @@ def categorize_samples_onehot(matrix: np.ndarray, name: str) -> np.ndarray:
             result[i, fault_index] = 1  # Faulty in one of the three categories
 
     return result
+
+if __name__ == "__main__":
+    main()
 
 # Example usage:
 # test_matrix = np.random.rand(16, 5)
